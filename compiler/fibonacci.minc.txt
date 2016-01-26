@@ -1,0 +1,34 @@
+void printi(num) int num; {
+	int buffer[10];
+	int remainder = num;
+	int count = 0;
+	
+	while( remainder > 0 ) {
+		buffer[count] = 48 + remainder % 10;
+		remainder = remainder / 10;
+		count = count + 1;
+	}
+	
+	count = count -1;
+	while(count >= 0) {
+		printf buffer[count];
+		count = count -1;
+	}
+}
+
+void fibonacci(n1, n2) int n1, n2; {
+	int fib = n1 + n2;
+	
+	printi( fib );
+	
+	int tmp = n2;
+	
+	if(fib < 100) {
+		printf ',', ' ';
+		fibonacci(tmp, fib);
+	} else ;
+}
+
+void main() {
+	fibonacci(0, 1);
+}

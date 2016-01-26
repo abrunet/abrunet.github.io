@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Alexis Brunet dot com</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+    <meta http-equiv="Content-Language" content="en"/>
+    <link rel="stylesheet" href="include/style.css" type="text/css" />
+</head>
+<body>
+<div id="titleHeader">
+    <h1>coding outside the lines</h1>
+</div>
+<div id="menu">
+    <ul>
+		<li class="first"><a href="index.html">BitTorrent WebUI</a></li>
+		<li><a href="compiler.html">Compiler</a></li>
+		<li>CUSEC / SpellChecker</li>
+		<li><a href="kakuro.html">Kakuro</a></li>
+		<li><a href="about.html">About</a></li>
+	</ul>
+</div>
+<div id="main_body">
+    <div>
+    <h4>CUSEC* 2009 IBM Extreme Blue Programming competition.</h4>
+	Program a spellchecker with suggestions for misspelled words, then go have a beer, it's CUSEC Pub Night!
+	<div class="asterisk">* CUSEC = Canadian University Software Engineering Conference</div>
+
+	<p>Enrique and I spent about 15 min exercising our Google-fu and found the following article on IBM's website (coincidence?).
+	<a class="block_anchor" href="http://www.ibm.com/developerworks/java/library/j-jazzy/" target="_blank">http://www.ibm.com/developerworks/java/library/j-jazzy/</a>
+	</p>
+
+	So here's what we got from the article:
+	<ol class="decimal_ol">
+		<li>Soundex returns too many suggestions to be useful by itself.</li>
+		<li>Levenshtein Distance Metric is too slow to perform on the entire dictionary every time we find a misspelled word.</li>
+	</ol>
+
+	<p>So... we decide to hash the entire dictionary with each word's soundex value as the key. Then soundex the misspelled word and retrieve the
+	list of dictionary words which have the same soundex value.</p>
+	<p>We then calculate the Levenshtein distance on this sub-set of dictionary words and return the ones with the smallest distance from the
+	misspelled word.</p>
+
+	We got our dictionary file by doing <code>cat /usr/share/dict/words &gt; dictionary.txt</code>
+
+	<p>Clearly this solution isn't perfect, first as the article above points out, Soundex has some limitations. Second it assumes that
+	 the misspelled word is mostly correct (small Levenshtein distance).</p>
+
+	<p>This is by no means a production level piece of code (seriously, just use a library, Jazzy perhaps ;) but for a programming competition we achieved the goal we had
+	set out for ourselves, which was to code a working solution without using libraries (and that was not a Google scraper!!) in the time allotted.</p>
+
+	<p>So we ended up with a little CLI java program that reads a text file and outputs the misspelled words, their positions and some suggestions.</p>
+
+	<p>You can browse the source on <a href="http://code.google.com/p/quiz-manager-0d/source/browse/&#35;svn/SpellChecker/trunk" target="_blank">Google code</a> or download it in this <a href="SpellChecker.zip">zip file</a>.</p>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Alexis Brunet dot com</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+    <meta http-equiv="Content-Language" content="en"/>
+    <link rel="stylesheet" href="include/style.css" type="text/css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+    <!--    <script language="JavaScript" type="text/javascript" src="include/jquery-1.3.2.min.js"></script> -->
+    <script language="JavaScript" type="text/javascript">
+	$(document).ready(function() {
+	   $("a[class=expand_code_link]").click( function() {
+			$(this).siblings('pre').css("height", "auto");
+			$(this).siblings("a[class=collapse_code_link]").show();
+			$(this).hide();
+			return false;
+		});
+
+		$("a[class=collapse_code_link]").click( function() {
+			$(this).siblings('pre').css("height", "12em");
+			$(this).hide();
+			$(this).siblings("a[class=expand_code_link]").show();
+			return false;
+		});
+	});
+	</script>
+</head>
+<body>
+<div id="titleHeader">
+    <h1>coding outside the lines</h1>
+</div>
+<div id="menu">
+    <ul>
+		<li class="first"><a href="index.html">BitTorrent WebUI</a></li>
+		<li>Compiler</li>
+		<li><a href="spellchecker.html">CUSEC / SpellChecker</a></li>
+		<li><a href="kakuro.html">Kakuro</a></li>
+		<li><a href="about.html">About</a></li>
+	</ul>
+</div>
+<div id="main_body" class="compiler">
+    <h4>MinC Compiler</h4>
+    <div id="code_link"><a href="compiler/compiler.zip">Download</a> or <a href="http://code.google.com/p/quiz-manager-0d/source/browse/&#35;svn/Compiler/trunk" target="_blank">browse</a> the source code.</div>
+    <p>The compiler I wrote for the Compiler Design class at Concordia is probably the project I'm proudest of. It's written in C++, the compiler's source language is MinC (a subset of C) the specification and grammar for MinC were written by professor Dr. J Opatrny.
+The target language is MOON Assembly, created by Dr. P. Grogono.</p>
+	<p>The Lexical Analyzer is implemented in the Scanner class and uses a large transition table. Since the table is sparsely populated consisting mostly of “no transition” entries it is created at runtime. The Lexical Analyzer is also responsible for generating the program listing, in order to separate each of the compiler’s tasks, the listing generator was implemented as an observer.</p>
+	<p>The Parser is implemented as a recursive descent parser, it is given a pointer to the Lexical Analyzer and repeatedly calls its getToken method effectively “driving” the lexical analysis.</p>
+	<p>The Symbols Table is implemented as a stack of hash maps. A new map is created for each new scope, if an identifier is not found in the current scope (the top of the stack) the lookup is repeated on the next map in the stack and so forth until the global scope (bottom of the stack) is reached.</p>
+	<p>The run-time system is a dynamic stack based environment which allows recursive function calls. Each time a function is called the stack grows and a new frame is created in memory. As each function returns the “top of stack” register is adjusted allowing for the memory to be reused by subsequent function calls. Frames have 4 reserved words, byte 0 is used to store the previous function's return address. Bytes 4 to 8 are used to store the previous frame's base address, at byte 8 is the previous top of stack value and at byte 12 is the address where the function's return value should be stored.</p>
+	<p>Register one (R1) is reserved for the current frame's base address, register R14 is used to keep track of the top of the stack. R2 and R3 are usually used to load the first and second operands respectively and R4 is used to store the result. Finally R15 is reserved for the current function's return address. The target code generator was designed to be completely modular and could easily be replaced with a similar class which converts the intermediate code into target code for a different architecture.</p>
+	<p>Error recovery is achieved using a simple but effective algorithm, when an error occurs all subsequent tokens are ignored until either a semi-colon is found (indicating the end of the offending statement), a curly brace (end of code block) or finally the end of file token. As a result the parser almost always parses the entire source file.</p>
+	<p>Here is a short sample MinC program which recursively prints all Fibonacci numbers less than 100 and the resulting MOON assembly code, which would be run in the MOON virtual machine written by Dr. Grogono.</p>
+	<div class="code_visibility">
+		MinC Code
+		<a class="expand_code_link" href="compiler/fibonacci.minc.txt" target="_blank">expand code</a>
+		<a class="collapse_code_link" href="">collapse code</a>
+	<pre><code id="minc_fibonacci">
+/* convert an integer into a series of characters
+   and print them */
+void printi(num) int num; {
+	int buffer[10];
+	int remainder = num;
+	int count = 0;
+
+	while( remainder &gt; 0 ) {
+		buffer[count] = 48 + remainder % 10;
+		remainder = remainder / 10;
+		count = count + 1;
+	}
+
+	count = count -1;
+	while(count &gt;= 0) {
+		printf buffer[count];
+		count = count -1;
+	}
+}
+
+/* recursively print all Fibonacci
+   numbers less than 100 */
+void fibonacci(n1, n2) int n1, n2; {
+	int fib = n1 + n2;
+
+	printi( fib );
+
+	int tmp = n2;
+
+	if(fib &lt; 100) {
+		printf ',', ' ';
+		fibonacci(tmp, fib);
+	} else ;
+}
+
+void main() {
+	fibonacci(0, 1);
+}
+	</code></pre>
+    </div>
+
+    <div class="code_visibility">
+    	MOON Assembly (only for serious nerds):
+		<a class="expand_code_link" href="compiler/fibonacci.m.txt" target="_blank">expand code</a>
+		<a class="collapse_code_link" href="">collapse code</a>
+    <pre><code id="moon_fibonacci">
+nums	dw	0,0,48,10,10,1,1,0,1,100,0,1
+chars	db	", "
+
+	align
+	entry
+	addi R1,R0,LDATA
+	add R14,R0,R0
+	add R2,R1,R14	% CALL LABEL0
+	addi R3,R1,0
+	sw 12(R2),R3
+	sw 8(R2),R14
+	sw 4(R2),R1
+	add R1,R1,R14
+	addi R14,R0,28
+	jl R15,LABEL0
+	hlt
+LABEL1	sw 0(R1),R15	% save return address
+	lw R2,16(R1)
+	lw R2,0(R2)
+	sw 60(R1),R2
+	addi R2,R0,0	% get num const #0
+	sl R2,2
+	lw R3,nums(R2)
+	sw 64(R1),R3
+	lw R2,64(R1)
+	sw 68(R1),R2
+LABEL3	addi R2,R0,1	% get num const #1
+	sl R2,2
+	lw R3,nums(R2)
+	sw 72(R1),R3
+	lw R2,60(R1)
+	lw R3,72(R1)
+	cgt R4,R2,R3
+	sw 76(R1),R4
+	lw R2,76(R1)	% if false
+	bz R2,LABEL4
+	addi R2,R0,2	% get num const #2
+	sl R2,2
+	lw R3,nums(R2)
+	sw 80(R1),R3
+	addi R2,R0,3	% get num const #3
+	sl R2,2
+	lw R3,nums(R2)
+	sw 84(R1),R3
+	lw R2,60(R1)
+	lw R3,84(R1)
+	mod R4,R2,R3
+	sw 88(R1),R4
+	lw R2,80(R1)
+	lw R3,88(R1)
+	add R4,R2,R3
+	sw 92(R1),R4
+	lw R2,92(R1)
+	lw R3,68(R1)
+	sl R3,2
+	addi R4,R3,20
+	add R4,R4,R1
+	sw 0(R4),R2
+	addi R2,R0,4	% get num const #4
+	sl R2,2
+	lw R3,nums(R2)
+	sw 96(R1),R3
+	lw R2,60(R1)
+	lw R3,96(R1)
+	div R4,R2,R3
+	sw 100(R1),R4
+	lw R2,100(R1)
+	sw 60(R1),R2
+	addi R2,R0,5	% get num const #5
+	sl R2,2
+	lw R3,nums(R2)
+	sw 104(R1),R3
+	lw R2,68(R1)
+	lw R3,104(R1)
+	add R4,R2,R3
+	sw 108(R1),R4
+	lw R2,108(R1)
+	sw 68(R1),R2
+	j LABEL3	% goto
+LABEL4	addi R2,R0,6	% get num const #6
+	sl R2,2
+	lw R3,nums(R2)
+	sw 112(R1),R3
+	lw R2,68(R1)
+	lw R3,112(R1)
+	sub R4,R2,R3
+	sw 116(R1),R4
+	lw R2,116(R1)
+	sw 68(R1),R2
+LABEL5	addi R2,R0,7	% get num const #7
+	sl R2,2
+	lw R3,nums(R2)
+	sw 120(R1),R3
+	lw R2,68(R1)
+	lw R3,120(R1)
+	cge R4,R2,R3
+	sw 124(R1),R4
+	lw R2,124(R1)	% if false
+	bz R2,LABEL6
+	lw R3,68(R1)
+	sl R3,2
+	add R3,R3,R1
+	lw R2,20(R3)
+	sw 128(R1),R2
+	lw R2,128(R1)
+	putc R2
+	addi R2,R0,8	% get num const #8
+	sl R2,2
+	lw R3,nums(R2)
+	sw 132(R1),R3
+	lw R2,68(R1)
+	lw R3,132(R1)
+	sub R4,R2,R3
+	sw 136(R1),R4
+	lw R2,136(R1)
+	sw 68(R1),R2
+	j LABEL5	% goto
+LABEL6	nop
+LABEL2	lw R15,0(R1)	% restore return address
+	lw R14,8(R1)	% restore top of the stack
+	lw R1,4(R1)
+	jr R15
+LABEL7	sw 0(R1),R15	% save return address
+	lw R2,16(R1)
+	lw R2,0(R2)
+	lw R3,20(R1)
+	lw R3,0(R3)
+	add R4,R2,R3
+	sw 24(R1),R4
+	lw R2,24(R1)
+	sw 28(R1),R2
+	add R2,R1,R14	% PARAM 1
+	addi R2,R2,16
+	addi R3,R1,28
+	sw 0(R2),R3
+	add R2,R1,R14	% CALL LABEL1
+	addi R3,R1,32
+	sw 12(R2),R3
+	sw 8(R2),R14
+	sw 4(R2),R1
+	add R1,R1,R14
+	addi R14,R0,140
+	jl R15,LABEL1
+	lw R2,20(R1)
+	lw R2,0(R2)
+	sw 36(R1),R2
+	addi R2,R0,9	% get num const #9
+	sl R2,2
+	lw R3,nums(R2)
+	sw 40(R1),R3
+	lw R2,28(R1)
+	lw R3,40(R1)
+	clt R4,R2,R3
+	sw 44(R1),R4
+	lw R2,44(R1)	% if false
+	bz R2,LABEL9
+	addi R2,R0,0	% get char const #0
+	lb R3,chars(R2)
+	sw 48(R1),R3
+	addi R2,R0,1	% get char const #1
+	lb R3,chars(R2)
+	sw 52(R1),R3
+	lw R2,48(R1)
+	putc R2
+	lw R2,52(R1)
+	putc R2
+	add R2,R1,R14	% PARAM 1
+	addi R2,R2,16
+	addi R3,R1,36
+	sw 0(R2),R3
+	addi R2,R2,4	% PARAM 2
+	addi R3,R1,28
+	sw 0(R2),R3
+	add R2,R1,R14	% CALL LABEL7
+	addi R3,R1,56
+	sw 12(R2),R3
+	sw 8(R2),R14
+	sw 4(R2),R1
+	add R1,R1,R14
+	addi R14,R0,60
+	jl R15,LABEL7
+	j LABEL10	% goto
+LABEL9	nop
+LABEL10	nop
+LABEL8	lw R15,0(R1)	% restore return address
+	lw R14,8(R1)	% restore top of the stack
+	lw R1,4(R1)
+	jr R15
+LABEL0	sw 0(R1),R15	% save return address
+	addi R2,R0,10	% get num const #10
+	sl R2,2
+	lw R3,nums(R2)
+	sw 16(R1),R3
+	addi R2,R0,11	% get num const #11
+	sl R2,2
+	lw R3,nums(R2)
+	sw 20(R1),R3
+	add R2,R1,R14	% PARAM 1
+	addi R2,R2,16
+	addi R3,R1,16
+	sw 0(R2),R3
+	addi R2,R2,4	% PARAM 2
+	addi R3,R1,20
+	sw 0(R2),R3
+	add R2,R1,R14	% CALL LABEL7
+	addi R3,R1,24
+	sw 12(R2),R3
+	sw 8(R2),R14
+	sw 4(R2),R1
+	add R1,R1,R14
+	addi R14,R0,60
+	jl R15,LABEL7
+LABEL11	lw R15,0(R1)	% restore return address
+	lw R14,8(R1)	% restore top of the stack
+	lw R1,4(R1)
+	jr R15
+LDATA
+    </code></pre>
+    </div>
+</div>
+</body>
+</html>
