@@ -2,12 +2,11 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <title>Alexis Brunet dot com</title>
+    <title>Alexis Brunet</title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
     <meta http-equiv="Content-Language" content="en"/>
     <link rel="stylesheet" href="include/style.css" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-    <!--    <script language="JavaScript" type="text/javascript" src="include/jquery-1.3.2.min.js"></script> -->
     <script language="JavaScript" type="text/javascript">
 	$(document).ready(function() {
 	   $("a[class=expand_code_link]").click( function() {
@@ -41,13 +40,13 @@
 </div>
 <div id="main_body" class="compiler">
     <h4>MinC Compiler</h4>
-    <div id="code_link"><a href="compiler/compiler.zip">Download</a> or <a href="http://code.google.com/p/quiz-manager-0d/source/browse/&#35;svn/Compiler/trunk" target="_blank">browse</a> the source code.</div>
-    <p>The compiler I wrote for the Compiler Design class at Concordia is probably the project I'm proudest of. It's written in C++, the compiler's source language is MinC (a subset of C) the specification and grammar for MinC were written by professor Dr. J Opatrny.
+    <div id="code_link"><a href="https://github.com/abrunet/quiz-manager-0d/tree/master/Compiler/trunk" target="_blank">Browse</a> the source code.</div>
+    <p>The compiler I wrote for the Compiler Design class at Concordia University is probably the project I'm proudest of. It's written in C++, the compiler's source language is MinC (a subset of C) the specification and grammar for MinC were written by professor Dr. J Opatrny.
 The target language is MOON Assembly, created by Dr. P. Grogono.</p>
-	<p>The Lexical Analyzer is implemented in the Scanner class and uses a large transition table. Since the table is sparsely populated consisting mostly of “no transition” entries it is created at runtime. The Lexical Analyzer is also responsible for generating the program listing, in order to separate each of the compiler’s tasks, the listing generator was implemented as an observer.</p>
-	<p>The Parser is implemented as a recursive descent parser, it is given a pointer to the Lexical Analyzer and repeatedly calls its getToken method effectively “driving” the lexical analysis.</p>
+	<p>The Lexical Analyzer is implemented in the Scanner class and uses a large transition table. Since the table is sparsely populated consisting mostly of &quot;no transition&quot; entries it is created at runtime. The Lexical Analyzer is also responsible for generating the program listing, in order to separate each of the compiler&#39;s tasks, the listing generator was implemented as an observer.</p>
+	<p>The Parser is implemented as a recursive descent parser, it is given a pointer to the Lexical Analyzer and repeatedly calls its getToken method effectively &quot;driving&quot; the lexical analysis.</p>
 	<p>The Symbols Table is implemented as a stack of hash maps. A new map is created for each new scope, if an identifier is not found in the current scope (the top of the stack) the lookup is repeated on the next map in the stack and so forth until the global scope (bottom of the stack) is reached.</p>
-	<p>The run-time system is a dynamic stack based environment which allows recursive function calls. Each time a function is called the stack grows and a new frame is created in memory. As each function returns the “top of stack” register is adjusted allowing for the memory to be reused by subsequent function calls. Frames have 4 reserved words, byte 0 is used to store the previous function's return address. Bytes 4 to 8 are used to store the previous frame's base address, at byte 8 is the previous top of stack value and at byte 12 is the address where the function's return value should be stored.</p>
+	<p>The run-time system is a dynamic stack based environment which allows recursive function calls. Each time a function is called the stack grows and a new frame is created in memory. As each function returns the &quot;top of stack&quot; register is adjusted allowing for the memory to be reused by subsequent function calls. Frames have 4 reserved words, byte 0 is used to store the previous function's return address. Bytes 4 to 8 are used to store the previous frame's base address, at byte 8 is the previous top of stack value and at byte 12 is the address where the function's return value should be stored.</p>
 	<p>Register one (R1) is reserved for the current frame's base address, register R14 is used to keep track of the top of the stack. R2 and R3 are usually used to load the first and second operands respectively and R4 is used to store the result. Finally R15 is reserved for the current function's return address. The target code generator was designed to be completely modular and could easily be replaced with a similar class which converts the intermediate code into target code for a different architecture.</p>
 	<p>Error recovery is achieved using a simple but effective algorithm, when an error occurs all subsequent tokens are ignored until either a semi-colon is found (indicating the end of the offending statement), a curly brace (end of code block) or finally the end of file token. As a result the parser almost always parses the entire source file.</p>
 	<p>Here is a short sample MinC program which recursively prints all Fibonacci numbers less than 100 and the resulting MOON assembly code, which would be run in the MOON virtual machine written by Dr. Grogono.</p>
@@ -97,8 +96,7 @@ void main() {
 	</code></pre>
     </div>
 
-    <div class="code_visibility">
-    	MOON Assembly (only for serious nerds):
+    <div class="code_visibility">MOON Assembly output:
 		<a class="expand_code_link" href="compiler/fibonacci.m.txt" target="_blank">expand code</a>
 		<a class="collapse_code_link" href="">collapse code</a>
     <pre><code id="moon_fibonacci">
