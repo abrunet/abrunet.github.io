@@ -1,92 +1,91 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <title>Alexis Brunet</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
-    <meta http-equiv="Content-Language" content="en"/>
-    <link rel="stylesheet" href="include/style.css" type="text/css" />
+  <title>Alexis Brunet</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+  <meta http-equiv="Content-Language" content="en"/>
+  <link rel="stylesheet" href="include/style.css" type="text/css" />
 </head>
 <body>
 <div id="titleHeader">
-    <h1>coding outside the lines</h1>
+  <h1>Alexis Brunet</h1>
 </div>
 <div id="menu">
-    <ul>
-		<li class="first">BitTorrent WebUI</li>
-		<li><a href="compiler.html">Compiler</a></li>
-		<li><a href="spellchecker.html">CUSEC / SpellChecker</a></li>
-		<li><a href="kakuro.html">Kakuro</a></li>
-		<li><a href="about.html">About</a></li>
-	</ul>
+  <ul>
+    <li class="first">BitTorrent WebUI</li>
+    <li><a href="compiler.html">Compiler</a></li>
+    <li><a href="spellchecker.html">CUSEC / SpellChecker</a></li>
+    <li><a href="kakuro.html">Kakuro</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
 </div>
 <div id="main_body">
-    <div id="bt_web_ui">
-	<h4>BitTorrent WebUI Firefox Extension</h4>
-	<div id="install">BitTorrent WebUI is no longer being maintained, the last version is available at
-		<a href="https://addons.mozilla.org/en-US/firefox/addon/7715" target="_blank">addons.mozilla.org</a>
-	</div>
-	This <a href="http://www.mozilla.com/firefox/" class="link_subtle" target="_blank">Firefox</a> extension allows you to simply
-	click a download link for a torrent file and have it automatically uploaded to your Bit Torrent client through
-	your preffered web interface. This is especially useful if you do a lot of browsing on a different computer
-	than the one which is running your Bit Torrent client.
-
-	<h4>Supported Clients: </h4>
-	<ul>
-	<li>
-	<a href="http://azureus.sourceforge.net/" class="link_subtle" target="_blank">Azureus</a> is supported through the following Remote Control plugins
-	<ol>
-	    <li><a href="http://azureus.sourceforge.net/plugin_details.php?plugin=azhtmlwebui" target="_blank">HTML WebUI</a></li>
-	    <li><a href="http://sourceforge.net/projects/azsmrc" target="_blank">AzSMRC</a> (thanks to Damokles for all his help)</li>
-	    <li><a href="http://azureus.sourceforge.net/plugin_details.php?plugin=webui" target="_blank">Swing WebUI</a></li>
-	</ol>
-	</li>
-		<li><a href="http://www.utorrent.com/" class="link_subtle" target="_blank">uTorrent</a></li>
-		<li><a href="http://www.transmissionbt.com/" class="link_subtle" target="_blank">Transmission v1.51 +</a></li>
-		<li><a href="http://deluge-torrent.org/" class="link_subtle" target="_blank">Deluge v1.1.9 +</a></li>
-	</ul>
+  <div id="bt_web_ui">
+    <h4>BitTorrent WebUI Firefox Extension</h4>
+    <div id="install">BitTorrent WebUI is no longer being maintained, the last version is available at
+      <a href="https://addons.mozilla.org/en-US/firefox/addon/7715" target="_blank">addons.mozilla.org</a>
     </div>
+    This <a href="http://www.mozilla.com/firefox/" class="link_subtle" target="_blank">Firefox</a> extension allows you to simply
+    click a download link for a torrent file and have it automatically uploaded to your Bit Torrent client through
+    your preffered web interface. This is especially useful if you do a lot of browsing on a different computer
+    than the one which is running your Bit Torrent client.
 
-    <div id="why_a_new_ext">
-	<h4>Why?</h4>
-	Since I use the <a href="http://azureus.sourceforge.net/plugin_details.php?plugin=azhtmlwebui" target="_blank">HTML WebUI</a> plugin to
-	control Azureus (which I run headless on a Linux server) I got tired of always having to copy paste .torrent links to
-	the upload form of Az's WebUI. So I made a Firefox extension which automatically downloads .torrent files and then uploads
-	them to my Azureus WebUI.
-	The result is pretty seamless, click on the download link of a bittorrent file and you receive a nice little message
-	telling you if it worked or not.
-    </div>
-    <div id="how_it_works">
-	<h4>Here's how it works.</h4>
-	<img src="images/sequence_diag.png" alt="high level sequence diagram" height="685" width="745" />
-	<p>The extension registers itself as a content listener with Firefox, when a new channel is opened we are given the
-	content-type of the channel, if the content-type is that of a .torrent file (application/x-bittorrent) then BitTorrent WebUI
-	supplies an instance of StreamListener, effectively taking over the data transfer. Once the transfer is completed, the StreamListener
-	calls back the extension passing it the channel data (the contents of the .torrent file).</p>
+    <h4>Supported Clients: </h4>
+    <ul>
+      <li>
+        <a href="http://azureus.sourceforge.net/" class="link_subtle" target="_blank">Azureus</a> is supported through the following Remote Control plugins
+        <ol>
+          <li><a href="http://azureus.sourceforge.net/plugin_details.php?plugin=azhtmlwebui" target="_blank">HTML WebUI</a></li>
+          <li><a href="http://sourceforge.net/projects/azsmrc" target="_blank">AzSMRC</a> (thanks to Damokles for all his help)</li>
+          <li><a href="http://azureus.sourceforge.net/plugin_details.php?plugin=webui" target="_blank">Swing WebUI</a></li>
+        </ol>
+      </li>
+      <li><a href="http://www.utorrent.com/" class="link_subtle" target="_blank">uTorrent</a></li>
+      <li><a href="http://www.transmissionbt.com/" class="link_subtle" target="_blank">Transmission v1.51 +</a></li>
+      <li><a href="http://deluge-torrent.org/" class="link_subtle" target="_blank">Deluge v1.1.9 +</a></li>
+    </ul>
+  </div>
+  <div id="why_a_new_ext">
+    <h4>Why?</h4>
+    Since I use the <a href="http://azureus.sourceforge.net/plugin_details.php?plugin=azhtmlwebui" target="_blank">HTML WebUI</a> plugin to
+    control Azureus (which I run headless on a Linux server) I got tired of always having to copy paste .torrent links to
+    the upload form of Az's WebUI. So I made a Firefox extension which automatically downloads .torrent files and then uploads
+    them to my Azureus WebUI.
+    The result is pretty seamless, click on the download link of a bittorrent file and you receive a nice little message
+    telling you if it worked or not.
+  </div>
+  <div id="how_it_works">
+    <h4>Here's how it works.</h4>
+    <img src="images/sequence_diag.png" alt="high level sequence diagram" height="685" width="745" />
+    <p>The extension registers itself as a content listener with Firefox, when a new channel is opened we are given the
+      content-type of the channel, if the content-type is that of a .torrent file (application/x-bittorrent) then BitTorrent WebUI
+      supplies an instance of StreamListener, effectively taking over the data transfer. Once the transfer is completed, the StreamListener
+      calls back the extension passing it the channel data (the contents of the .torrent file).</p>
 
-	<p>The extension then requests a dispatcher from the dispatcher factory, the dispatcher factory returns a concrete dispatcher based on the BitTorrent client selected in the extension preferences.
-	The dispatcher then creates a post request specifically for the selected web interface, and sends it to the URL of the web interface.
-	The result of the POST request is then parsed and displayed using Firefox's alert service.</p>
+    <p>The extension then requests a dispatcher from the dispatcher factory, the dispatcher factory returns a concrete dispatcher based on the BitTorrent client selected in the extension preferences.
+      The dispatcher then creates a post request specifically for the selected web interface, and sends it to the URL of the web interface.
+      The result of the POST request is then parsed and displayed using Firefox's alert service.</p>
 
-	<p>Early on I realised that I would get requests to support different BitTorrent clients and remote control plugins so I decided to
-	design the extension so that it could easily accommodate these changes.</p>
+    <p>Early on I realised that I would get requests to support different BitTorrent clients and remote control plugins so I decided to
+      design the extension so that it could easily accommodate these changes.</p>
 
-	<p>Here is an overview of the Dispatcher object hierarchy. (I'm using "object" here because classes don't really make sense in the context of JavaScript)</p>
-	<img src="images/class_diag.png" alt="class diagram for a language without classes" width="793" height="517" />
+    <p>Here is an overview of the Dispatcher object hierarchy. (I'm using "object" here because classes don't really make sense in the context of JavaScript)</p>
+    <img src="images/class_diag.png" alt="class diagram for a language without classes" width="793" height="517" />
 
-	<p>Each BitTorrent client / WebUI has its own dispatcher based on the prototype dispatcher object (kind of like a base class).
-	Dispatchers use the <a href="http://en.wikipedia.org/wiki/Template_method_pattern" target="_blank">Template Method Pattern</a> to customize the process of creating a POST request containing the torrent file data.</p>
-	<p>Concrete Dispatcher objects can "hook" into 4 steps of creating and sending the torrent data</p>
-	<ul>
-		<li>createHTTPPost - where POST data is put into a buffer</li>
-		<li>openRequest - most dispatchers don't overload this, it's where we set the server URL for the request</li>
-		<li>setRequestHeader - this is where dispatchers can add HTTP headers to the request like "Content-Type: application/json"</li>
-		<li>getResultParser - all dispatchers must overload this function and provide an object which can determine if the POST worked
-			or not based on the server response</li>
-	</ul>
-	So that way I can add support for a new client by writing 1 file which defines a new dispatcher object and registers it with the
-	dispatcher factory... easy peasy.
-    </div>
+    <p>Each BitTorrent client / WebUI has its own dispatcher based on the prototype dispatcher object (kind of like a base class).
+      Dispatchers use the <a href="http://en.wikipedia.org/wiki/Template_method_pattern" target="_blank">Template Method Pattern</a> to customize the process of creating a POST request containing the torrent file data.</p>
+    <p>Concrete Dispatcher objects can "hook" into 4 steps of creating and sending the torrent data</p>
+    <ul>
+      <li>createHTTPPost - where POST data is put into a buffer</li>
+      <li>openRequest - most dispatchers don't overload this, it's where we set the server URL for the request</li>
+      <li>setRequestHeader - this is where dispatchers can add HTTP headers to the request like "Content-Type: application/json"</li>
+      <li>getResultParser - all dispatchers must overload this function and provide an object which can determine if the POST worked
+	or not based on the server response</li>
+    </ul>
+    <p>That way I can add support for a new client by writing 1 new file which defines a new dispatcher object and registers it with the
+      dispatcher factory, no other modifications are necessary.</p>
+  </div>
 </div>
 </body>
 </html>
